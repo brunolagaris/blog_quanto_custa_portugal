@@ -1,0 +1,136 @@
+############################
+# OS / EDITORS
+############################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# VSCode
+.vscode/
+
+# JetBrains
+.idea/
+
+############################
+# ENV / SECRETS
+############################
+
+.env
+.env.*
+*.env
+
+############################
+# PYTHON / DJANGO
+############################
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualenv
+venv/
+.venv/
+env/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+media/
+staticfiles/
+
+# Pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+############################
+# POSTGRES
+############################
+
+*.dump
+*.sql
+*.backup
+.pgpass
+.pg_service.conf
+
+############################
+# NODE / JAVASCRIPT
+############################
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+dist/
+build/
+
+############################
+# JAVA
+############################
+
+*.class
+*.jar
+*.war
+*.ear
+target/
+.gradle/
+build/
+
+############################
+# RUBY
+############################
+
+.bundle/
+vendor/bundle
+*.gem
+Gemfile.lock
+log/
+tmp/
+
+############################
+# DOCKER
+############################
+
+docker-compose.override.yml
+*.pid
+
+############################
+# GENERAL TRASH
+############################
+
+*.swp
+*.swo
+*.tmp
+*.bak
+*.orig
+
+############################
+# FRONTEND FRAMEWORKS
+############################
+
+.next/
+.nuxt/
+.svelte-kit/
+.cache/
+
+############################
+# ARCHIVES
+############################
+
+*.zip
+*.tar
+*.tar.gz
+*.rar
