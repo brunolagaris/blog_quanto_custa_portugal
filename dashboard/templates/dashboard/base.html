@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="light" lang="pt">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{% block title %}Dashboard{% endblock %} - QUANTOCUSTAPORTUGAL.COM</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dash-blue': '#022873',
+                        'dash-yellow': '#D4D959',
+                        'dash-olive': '#BCBF5E',
+                        'dash-khaki': '#736F3D',
+                        'dash-orange': '#D96C0D',
+                        'dash-bg': '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        body { font-family: 'Inter', sans-serif; background-color: theme('colors.dash-bg'); }
+        .sidebar-link.active { 
+            background-color: rgba(255, 255, 255, 0.1); 
+            border-left: 4px solid theme('colors.dash-orange'); 
+        }
+    </style>
+</head>
+<body class="antialiased flex h-screen overflow-hidden">
+
+    {% include 'dashboard/partials/_sidebar.html' %}
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        {% include 'dashboard/partials/_header.html' %}
+
+        <main class="flex-1 overflow-y-auto p-6">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+</body>
+</html>
