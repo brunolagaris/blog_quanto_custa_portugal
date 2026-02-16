@@ -6,17 +6,19 @@
     </div>
 
     <div class="flex items-center gap-6">
-        <button class="bg-dash-orange text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 shadow-md hover:brightness-110 transition-all">
-            <span class="material-symbols-outlined !text-16px">add</span>
-            <span class="hidden sm:inline">Novo Conteúdo</span>
-        </button>
+        <a href="{% url 'articles_index' %}"
+            class="bg-dash-orange text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-orange-500/20 hover:scale-105 transition-all">
+            <span class="material-symbols-outlined !text-18px">add</span>
+            Novo Conteúdo
+        </a>
         <div class="h-8 w-[1px] bg-slate-200"></div>
         <div class="flex items-center gap-3">
             <div class="text-right hidden sm:block">
                 <p class="text-xs font-bold text-dash-blue leading-none">{{ user.username }}</p>
                 <p class="text-[10px] text-slate-500 uppercase font-medium">Admin</p>
             </div>
-            <div class="size-9 rounded-full bg-dash-blue border-2 border-dash-yellow flex items-center justify-center text-white text-xs font-black">
+            <div
+                class="size-9 rounded-full bg-dash-blue border-2 border-dash-yellow flex items-center justify-center text-white text-xs font-black">
                 {{ user.username|slice:":2"|upper }}
             </div>
         </div>

@@ -39,6 +39,18 @@ def index(request):
     leads_prev = Lead.objects.filter(created_at__range=(previous_30_days, last_30_days)).count()
     leads_growth = get_growth(leads_current, leads_prev)
 
+    views_grouth = 12.5 # Valor similado
+    latest_activities = Post.objects.all().order_by('-created_at')[:5]
+
+    chart_data = [
+        {'day': 'Seg', 'value': 45},
+        {'day': 'Ter', 'value': 70},
+        {'day': 'Qua', 'value': 55},
+        {'day': 'Qui', 'value': 150},
+        {'day': 'Sex', 'value': 200},
+        {'day': 'Sab', 'value': 23},
+        {'day': 'Dom', 'value': 10},
+    ]
 
     context = {
         'total_posts': total_posts,
@@ -48,9 +60,11 @@ def index(request):
         'calcs_growth': calcs_growth,
         'total_leads': total_leads,
         'leads_growth': leads_growth,
+        'latest_activities': latest_activities,
+        'chart_data': chart_data,
     }
 
-    return render(request, 'dashboard/index.html')
+    return render(request, 'dashboard/index.html', context)
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)

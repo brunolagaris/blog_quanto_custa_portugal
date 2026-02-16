@@ -14,8 +14,8 @@
         <div class="flex items-end gap-2 mt-2">
             <span class="text-2xl font-black">{{ total_views|default:"0" }}</span>
             <span
-                class="text-xs font-bold {% if viws_growth >= 0 %}text-emerald-500{% else %}text-rose-500{% endif %} mb-1 flex items-center">
-                {% if viws_growth >= 0 %}+{% endif %}{{ viws_growth }}%
+                class="text-xs font-bold {% if views_growth >= 0 %}text-emerald-500{% else %}text-rose-500{% endif %} mb-1 flex items-center">
+                {% if views_growth >= 0 %}+{% endif %}{{ views_growth }}%
             </span>
         </div>
     </div>
@@ -79,37 +79,36 @@
             </select>
         </div>
         <div class="flex-grow flex items-end gap-2 h-64 w-full px-4 relative">
-            <div class="absolute inset-0 flex flex-col justify-between py-2 border-l border-slate-100">
+            <div
+                class="absolute inset-0 flex flex-col justify-between py-2 border-l border-b border-slate-100 pointer-events-none">
                 <div class="w-full border-t border-slate-50"></div>
                 <div class="w-full border-t border-slate-50"></div>
                 <div class="w-full border-t border-slate-50"></div>
                 <div class="w-full border-t border-slate-50"></div>
-                <div class="w-full border-t border-slate-100"></div>
             </div>
-            <svg class="absolute inset-0 w-full h-full px-4" preserveAspectRatio="none" viewBox="0 0 800 200">
-                <path d="M0,150 Q50,140 100,160 T200,100 T300,120 T400,60 T500,80 T600,40 T700,50 T800,20" fill="none"
-                    stroke="#022873" stroke-width="3"></path>
-                <path
-                    d="M0,150 Q50,140 100,160 T200,100 T300,120 T400,60 T500,80 T600,40 T700,50 T800,20 L800,200 L0,200 Z"
-                    fill="url(#gradient)" opacity="0.1"></path>
-                <defs>
-                    <linearGradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
-                        <stop offset="0%" style="stop-color:#022873;stop-opacity:1"></stop>
-                        <stop offset="100%" style="stop-color:oklch(54.6% 0.245 262.881);stop-opacity:0"></stop>
-                    </linearGradient>
-                </defs>
-            </svg>
-            <div class="w-full flex justify-between mt-4 text-[10px] font-bold text-slate-400 absolute -bottom-6">
-                <span>01 Out</span>
-                <span>10 Out</span>
-                <span>20 Out</span>
-                <span>30 Out</span>
+
+            <div class="flex-1 flex items-end justify-between gap-2 h-full relative z-10">
+                {% for item in chart_data %}
+                <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+                    <div
+                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-dash-blue text-white text-[10px] py-1 px-2 rounded mb-1">
+                        {{ item.value }}%
+                    </div>
+                    <div style="height: {{ item.value }}%;"
+                        class="w-full max-w-[40px] bg-dash-blue/20 group-hover:bg-dash-orange rounded-t-sm transition-all duration-500">
+                    </div>
+                    <span class="text-[10px] font-bold text-slate-400 mt-2">{{ item.day }}</span>
+                </div>
+                {% endfor %}
             </div>
+
+            
         </div>
     </div>
     <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
         <h3 class="text-lg font-bold text-[#111318] mb-6">Últimas Atividades</h3>
         <div class="space-y-6">
+            {% for activity in latest_activities %}
             <div class="flex gap-4">
                 <div
                     class="size-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
@@ -117,47 +116,15 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="text-sm font-bold">Novo artigo publicado</span>
-                    <span class="text-xs text-slate-500">"Como obter o NIF em 2024"</span>
-                    <span class="text-[10px] text-slate-400 mt-1 uppercase font-bold">Há 2 horas</span>
+                    <span class="text-xs text-slate-500">"{{ activity.title }}"</span>
+                    <span class="text-[10px] text-slate-400 mt-1 uppercase font-bold">
+                        {{ activity.created_at|timesince }} atrás
+                    </span>
                 </div>
             </div>
-            <div class="flex gap-4">
-                <div
-                    class="size-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 flex-shrink-0">
-                    <span class="material-symbols-outlined !text-20px">trending_up</span>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-sm font-bold">Ajuste na taxa de IRS</span>
-                    <span class="text-xs text-slate-500">Calculadora de Salário Líquido atualizada</span>
-                    <span class="text-[10px] text-slate-400 mt-1 uppercase font-bold">Ontem</span>
-                </div>
-            </div>
-            <div class="flex gap-4">
-                <div
-                    class="size-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-600 flex-shrink-0">
-                    <span class="material-symbols-outlined !text-20px">person_add</span>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-sm font-bold">Novo usuário registrado</span>
-                    <span class="text-xs text-slate-500">João Silva criou uma conta</span>
-                    <span class="text-[10px] text-slate-400 mt-1 uppercase font-bold">Ontem</span>
-                </div>
-            </div>
-            <div class="flex gap-4">
-                <div
-                    class="size-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 flex-shrink-0">
-                    <span class="material-symbols-outlined !text-20px">campaign</span>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-sm font-bold">Campanha Newsletter enviada</span>
-                    <span class="text-xs text-slate-500">Enviado para 1,402 assinantes</span>
-                    <span class="text-[10px] text-slate-400 mt-1 uppercase font-bold">2 dias atrás</span>
-                </div>
-            </div>
-            <button
-                class="w-full py-2 text-sm font-bold text-slate-500 hover:text-[var(--accent-primary)] transition-colors text-center border-t border-slate-50 mt-4">
-                Ver todo o histórico
-            </button>
+            {% empty %}
+            <p class="text-sm text-slate-500 text-center py-4">Nenhuma atividade recente.</p>
+            {% endfor %}
         </div>
     </div>
 </div>
