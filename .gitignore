@@ -41,6 +41,7 @@ __pycache__/
 venv/
 .venv/
 env/
+.env
 
 # Django
 *.log
@@ -48,6 +49,7 @@ local_settings.py
 db.sqlite3
 media/
 staticfiles/
+migrations
 
 # Pytest / coverage
 .pytest_cache/
