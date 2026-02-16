@@ -12,20 +12,26 @@
             </div>
         </div>
         <div class="flex items-end gap-2 mt-2">
-            <span class="text-2xl font-black">42.890</span>
-            <span class="text-xs font-bold text-emerald-500 mb-1 flex items-center">+12%</span>
+            <span class="text-2xl font-black">{{ total_views|default:"0" }}</span>
+            <span
+                class="text-xs font-bold {% if viws_growth >= 0 %}text-emerald-500{% else %}text-rose-500{% endif %} mb-1 flex items-center">
+                {% if viws_growth >= 0 %}+{% endif %}{{ viws_growth }}%
+            </span>
         </div>
     </div>
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-2">
         <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Newsletter</span>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Posts</span>
             <div class="size-8 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
-                <span class="material-symbols-outlined !text-20px">mail</span>
+                <span class="material-symbols-outlined !text-20px">note</span>
             </div>
         </div>
         <div class="flex items-end gap-2 mt-2">
-            <span class="text-2xl font-black">1.402</span>
-            <span class="text-xs font-bold text-emerald-500 mb-1 flex items-center">+5.2%</span>
+            <span class="text-2xl font-black">{{ total_posts|default:"0" }}</span>
+            <span
+                class="text-xs font-bold {% if posts_growth >= 0 %}text-emerald-500{% else %}text-rose-500{% endif %} mb-1 flex items-center">
+                {% if posts_growth >= 0 %}+{% endif %}{{ posts_growth }}%
+            </span>
         </div>
     </div>
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-2">
@@ -36,8 +42,11 @@
             </div>
         </div>
         <div class="flex items-end gap-2 mt-2">
-            <span class="text-2xl font-black">8.671</span>
-            <span class="text-xs font-bold text-rose-500 mb-1 flex items-center">-2%</span>
+            <span class="text-2xl font-black">{{ total_calcs|default:"0" }}</span>
+            <span
+                class="text-xs font-bold {% if calcs_growth >= 0 %}text-emerald-500{% else %}text-rose-500{% endif %} mb-1 flex items-center">
+                {% if calcs_growth >= 0 %}+{% endif %}{{ calcs_growth }}%
+            </span>
         </div>
     </div>
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-2">
@@ -48,8 +57,11 @@
             </div>
         </div>
         <div class="flex items-end gap-2 mt-2">
-            <span class="text-2xl font-black">342</span>
-            <span class="text-xs font-bold text-emerald-500 mb-1 flex items-center">+18%</span>
+            <span class="text-2xl font-black">{{ total_leads|default:"0" }}</span>
+            <span
+                class="text-xs font-bold {% if leads_growth >= 0 %}text-emerald-500{% else %}text-rose-500{% endif %} mb-1 flex items-center">
+                {% if leads_growth >= 0 %}+{% endif %}{{ leads_growth }}%
+            </span>
         </div>
     </div>
 </div>

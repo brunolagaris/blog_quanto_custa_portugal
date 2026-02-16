@@ -17,3 +17,17 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class CalculationLog(models.Model):
+    calculator_type = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Lead(models.Model):
+    email = models.EmailField(unique=True)
+    source = models.CharField(max_length=100, default='newsletter')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        self.email
