@@ -1,0 +1,116 @@
+{% extends 'dashboard/base.html' %}
+
+{% block page_title %}Gerenciar Conteúdo{% endblock %}
+
+{% block content %}
+<header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-20">
+    <div class="relative w-96">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+        <input
+            class="w-full pl-10 pr-4 py-2 bg-slate-100 border-none rounded-lg text-sm focus:ring-2 focus:ring-dash-blue/20 focus:bg-white transition-all"
+            placeholder="Procurar por título..." type="text">
+    </div>
+    <div class="flex items-center gap-4">
+        <a href="#"
+            class="bg-dash-orange text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-lg shadow-orange-500/20 hover:scale-105 transition-all">
+            <span class="material-symbols-outlined !text-[20px]">add_circle</span>
+            Criar Novo Post
+        </a>
+    </div>
+</header>
+
+<div class="p-8">
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold text-dash-blue">Gerenciamento de Conteúdo</h2>
+        <p class="text-slate-500 text-sm mt-1">Visualize e edite todos os artigos publicados no portal.</p>
+    </div>
+
+    <div class="flex items-center gap-2 mb-6 overflow-x-auto pb-2">
+        <button
+            class="px-4 py-1.5 rounded-full bg-dash-blue text-white text-sm font-semibold whitespace-nowrap">Todos</button>
+        <button
+            class="px-4 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:border-dash-blue hover:text-dash-blue text-sm font-medium whitespace-nowrap transition-colors">Burocracia</button>
+        <button
+            class="px-4 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:border-dash-blue hover:text-dash-blue text-sm font-medium whitespace-nowrap transition-colors">Habitação</button>
+        <div class="h-6 w-px bg-slate-200 mx-2"></div>
+        <button class="flex items-center gap-1 text-dash-blue text-sm font-bold px-3">
+            <span class="material-symbols-outlined text-[18px]">tune</span>
+            Mais Filtros
+        </button>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-slate-50 border-b border-slate-200">
+                    <th class="px-6 py-4 text-xs font-bold text-slate-600 uppercase tracking-wider">Título</th>
+                    <th class="px-6 py-4 text-xs font-bold text-slate-600 uppercase tracking-wider">Visualizações</th>
+                    <th class="px-6 py-4 text-xs font-bold text-slate-600 uppercase tracking-wider">Data</th>
+                    <th class="px-6 py-4 text-xs font-bold text-slate-600 uppercase tracking-wider text-center">Status
+                    </th>
+                    <th class="px-6 py-4 text-xs font-bold text-slate-600 uppercase tracking-wider text-right">Ações
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for article in articles %}
+                <tr class="hover:bg-slate-50/50 transition-colors">
+                    <td class="px-6 py-4">
+                        <div class="flex flex-col">
+                            <span class="text-sm font-bold text-slate-800 leading-tight">{{ article.title }}</span>
+                            <span class="text-[11px] text-slate-400 mt-1 uppercase tracking-tight">slug: {{ article.slug}}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-slate-600">
+                        {{ article.views_count }} views
+                    </td>
+                    <td class="px-6 py-4 text-sm text-slate-500">
+                        {{ article.created_at|date:"d M, Y" }}
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <span
+                            class="inline-flex items-center gap-1.5 px-2 py-1 rounded text-[11px] font-bold uppercase bg-emerald-50 text-emerald-600 border border-emerald-100">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            Publicado
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex items-center justify-end gap-2">
+                            <a href="{% url 'article_edit' article.pk %}"
+                                class="p-1.5 text-slate-400 hover:text-dash-blue hover:bg-slate-100 rounded transition-all">
+                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                            </a>
+
+                            <a href="{% url 'article_delete' article.pk %}"
+                                onclick="return confirm('Tem certeza que deseja apagar este artigo?')"
+                                class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded transition-all">
+                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="px-6 py-10 text-center text-slate-500 italic">
+                        Nenhum artigo encontrado no banco de dados.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-500">Total: {{ articles.count }} artigos</span>
+            <div class="flex items-center gap-2">
+                <button class="p-2 rounded border border-slate-200 text-slate-400 opacity-50 cursor-not-allowed">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button class="w-8 h-8 rounded bg-dash-blue text-white text-xs font-bold shadow-sm">1</button>
+                <button class="p-2 rounded border border-slate-200 text-slate-400 hover:bg-white transition-all">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

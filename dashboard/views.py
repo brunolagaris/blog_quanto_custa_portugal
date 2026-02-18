@@ -1,14 +1,16 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from datetime import timedelta
 from .models import Post, CalculationLog, Lead
 from django.db.models import Sum
+from .forms import PostForm
 
 
 def get_growth(current, previous):
     if previous == 0:
         return 100 if current > 0 else 0
     return round(((current - previous) / previous) * 100, 1)
+
 
 def index(request):
     # Datas para o cálculo
@@ -66,6 +68,7 @@ def index(request):
 
     return render(request, 'dashboard/index.html', context)
 
+
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     session_key = f'viewed_post_{post.id}'
@@ -78,3 +81,43 @@ def post_detail(request, slug):
         request.session.set_expiry(86400)
 
     return render(request, 'blog/post_detail.html', {'post': post})
+
+
+def article_create(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            article = form.save() # Salva direto se estiver tudo ok
+            return redirect('articles_list')
+    else:
+        form = PostForm()
+
+    # O return deve ficar fora do IF para responder ao GET inicial
+    return render(request, 'dashboard/article_editor.html', {'form': form})
+
+def article_edit(request, pk):
+    article = get_object_or_404(Post, pk=pk)
+    
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect('articles_list')
+    else:
+        # Se for GET, carregamos o formulário com os dados do artigo existente
+        form = PostForm(instance=article)
+
+    # O return fora do IF garante que a página de edição abra corretamente
+    return render(request, 'dashboard/article_editor.html', {'form': form, 'article': article})
+    
+
+def article_delete(request, pk):
+    article = get_object_or_404(Post, pk=pk)
+    article.delete()
+    return redirect('articles_list')
+
+
+def articles_list(request):
+    articles = Post.objects.all().order_by('-created_at')
+
+    return render(request, 'dashboard/articles_list.html', {'articles': articles})

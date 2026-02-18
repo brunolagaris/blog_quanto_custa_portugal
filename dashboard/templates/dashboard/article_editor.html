@@ -1,0 +1,58 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<form method="POST" id="article-form" class="max-w-[1440px] mx-auto px-6 py-8 flex gap-8" novalidate>
+    {% csrf_token %} <div class="flex-1 max-w-4xl">
+        <div class="mb-8">
+            {{ form.title }} <div class="flex gap-4 text-xs text-slate-400 uppercase tracking-widest font-semibold">
+                <span>Slug: quantocustaportugal.com/guias/<span class="text-dash-orange underline cursor-pointer">automatico</span></span>
+            </div>
+        </div>
+
+        <div class="bg-white border-x border-b border-slate-200 rounded-b-xl min-h-[600px] p-10 shadow-sm">
+             {{ form.content }} <div contenteditable="true" id="rich-editor" class="prose max-w-none focus:outline-none">
+                Comece a escrever...
+             </div>
+        </div>
+    </div>
+
+    <aside class="w-80 flex flex-col gap-6">
+        <section class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+            <div class="p-4 space-y-4">
+                <button type="submit" class="w-full bg-dash-blue hover:bg-dash-blue/90 text-white font-bold py-3 rounded-lg shadow-lg transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined !text-[20px]">rocket_launch</span>
+                    Publicar Artigo
+                </button>
+            </div>
+        </section>
+        </aside>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // CORREÇÃO: Buscamos pelo ID específico, ignorando o form de logout da sidebar
+        const form = document.getElementById('article-form'); 
+        
+        const richEditor = document.getElementById('rich-editor');
+        const hiddenTextarea = document.querySelector('textarea[name="content"]');
+
+        // 1. CARREGAMENTO
+        if (hiddenTextarea && hiddenTextarea.value.trim() !== "") {
+            richEditor.innerHTML = hiddenTextarea.value;
+        }
+
+        // 2. SINCRONIZAÇÃO
+        form.addEventListener('submit', function(e) {
+            const htmlValue = richEditor.innerHTML.trim();
+            
+            if (htmlValue === "Comece a escrever..." || htmlValue === "<br>") {
+                hiddenTextarea.value = "";
+            } else {
+                hiddenTextarea.value = htmlValue;
+            }
+            
+            console.log("Salvo com sucesso:", hiddenTextarea.value);
+        });
+    });
+</script>
+{% endblock %}
